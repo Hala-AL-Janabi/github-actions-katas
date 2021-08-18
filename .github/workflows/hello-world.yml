@@ -58,5 +58,10 @@ jobs:
     needs: Docker-image
     runs-on: ubuntu-latest
     steps:
+      - name: Download docker
+        uses: actions/download-artifact@v2
+        with:
+          name: Docker-image
+          path: .
     - name: running a component test 
-      run: bash ci/component-test.sh && export GIT_COMMIT="GA-$GITHUB_SHA"
+      run: ci/component-test.sh
