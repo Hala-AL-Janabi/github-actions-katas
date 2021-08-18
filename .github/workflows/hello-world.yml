@@ -54,3 +54,9 @@ jobs:
           path: .
       - run: bash ci/build-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA"
       - run: bash ci/push-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA"
+  Component-test:
+    needs: Docker-image
+    runs-on: ubuntu-latest
+    steps:
+    - name: running a component test 
+      run: bash ci/component-test.sh && export GIT_COMMIT="GA-$GITHUB_SHA"
