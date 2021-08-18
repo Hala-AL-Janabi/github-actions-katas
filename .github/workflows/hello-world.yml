@@ -44,7 +44,7 @@ jobs:
       - name: testing
         run: chmod +x ci/unit-test-app.sh && ci/unit-test-app.sh
   Docker-image:
-    needs: [Build, Test]
+    needs: [Build,Test]
     steps:
       - name: Download docker
         uses: actions/download-artifact@v2
