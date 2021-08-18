@@ -21,7 +21,6 @@ jobs:
         with:
           name: code
           path: .
-      - uses: actions/checkout@v2
       - name: my-step
         run: ci/build-app.sh
   Test:
