@@ -34,5 +34,5 @@ jobs:
           name: code
           path: .
       - name: testing
-      - run: ci/unit-test-app.sh
+        run: ci/unit-test-app.sh
 
