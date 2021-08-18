@@ -1,4 +1,7 @@
 name: Java CI
+env:
+  docker_username: ${{ secrets.DOCKER_USERNAME }}
+  docker_password: ${{ secrets.DOCKER_PASSWORD }}
 on: push
 jobs:
   Clone-down: 
@@ -21,6 +24,11 @@ jobs:
         with:
           name: code
           path: .
+      - name: Docker upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Docker-image
+          path: .
       - name: my-step
         run: chmod +x ci/build-app.sh && ci/build-app.sh
   Test:
@@ -35,4 +43,16 @@ jobs:
           path: .
       - name: testing
         run: chmod +x ci/unit-test-app.sh && ci/unit-test-app.sh
+  Docker-image:
+    needs: Build && Test
+    steps:
+      - name: Download docker
+        uses: actions/download-artifact@v2
+        with:
+          name: Docker-image
+          path: .
+      - run: chmod +x ci/build-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA"
+      - run: chmod +x ci/push-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA"
+      - 
+
 
