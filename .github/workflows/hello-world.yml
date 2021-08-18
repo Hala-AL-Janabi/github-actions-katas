@@ -64,4 +64,4 @@ jobs:
           name: Docker-image
           path: .
     - name: running a component test 
-      run: ci/component-test.sh
+      run: bash ci/component-test.sh
