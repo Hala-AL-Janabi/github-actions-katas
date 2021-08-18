@@ -5,7 +5,7 @@ env:
   docker_password: ${{ secrets.DOCKER_PASSWORD }}
 jobs:
   Clone-down: 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container: gradle:6-jdk11
     steps:
       - uses: actions/checkout@v2
@@ -16,7 +16,7 @@ jobs:
           path: .
   Build:
     needs: Clone-down
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container: gradle:6-jdk11
     steps:
       - name: Download the code
@@ -33,7 +33,7 @@ jobs:
           path: .
   Test:
     needs: Clone-down
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container: gradle:6-jdk11
     steps:
       - name: Download tests
@@ -45,7 +45,7 @@ jobs:
         run: chmod +x ci/unit-test-app.sh && ci/unit-test-app.sh
   Docker-image:
     needs: [Build, Test]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Download docker
         uses: actions/download-artifact@v2
@@ -56,7 +56,7 @@ jobs:
       - run: bash ci/push-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA"
   Component-test:
     needs: Docker-image
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Download docker
         uses: actions/download-artifact@v2
